@@ -80,6 +80,58 @@
     </nav>
     <!-- end header -->
 
+    <main>
+        <div id="app">
+            <div class="container">
+                <div class="fdc row">
+                    <div class="step-1" v-if="input_show">
+                        <div class="api-data">
+                          <div>
+                            <div v-if="ex_price != 0 && min_balance < max_balance">
+                              <p>1 BTC = [[ ex_price ]] XMR</p>
+                            </div>
+                            <div v-else>
+                              <p>1 BTC = XMR</p>
+                            </div>
+                            <div v-if="min_balance < max_balance">
+                              <p>Limits [[min_balance]] - [[max_balance]] BTC</p>
+                            </div>
+                            <div v-else>
+                              <p>Limits - BTC</p>
+                            </div>
+                          </div>
+                        </div>
+                        <div style="margin-top:20px;">
+                          <div class="form">
+                            <h4>Send BTC</h4>
+                            <div class="form__xmr">
+                              <div class="xmr-input">
+                                <input id="btc" placeholder="Bitcoin Amount" v-model="btc_amount" />
+                                <span class="error">[[invalid_amt]]</span>
+                              </div>
+                              <div class="refund-input">
+                                <input id="refund" placeholder="BTC refund address" v-model="refund_address" />
+                                <span class="error">[[invalid_btc]]</span>
+                              </div>
+                            </div>
+                            <h4 class="xmr-title">Get XMR</h4>
+                            <input id="xmr" placeholder="Monero Address" v-model="xmr_address" />
+                            <span class="error">[[invalid_xmr]]</span>
+                            <div class="result">
+                              <label>You will get [[receive]] XMR</label>
+                            </div>
+                            <div v-if="invalid_address != ''">
+                              <span class="error">[[invalid_address]]</span>
+                            </div>
+                            <button class="btn btn-dark next-btn" @click.prevent="step1" style="margin-top: 15px;">NEXT</button>
+                          </div>
+                        </div>
+                      </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
     <!-- JQuery -->
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <!-- Bootstrap tooltips -->
