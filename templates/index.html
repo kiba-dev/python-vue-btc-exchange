@@ -152,6 +152,28 @@
                                     </div>
                                 </div>
                                 <br />
+                                <div v-if="exceed && xmr_amt != 0 && lack != 0">
+                                    <div class="warning_group">
+                                        <h4 style="color: #ff6229; padding-left: 20px; padding-right: 20px;">
+                                            <strong>The over payment Notification</strong>
+                                        </h4>
+                                        <p style="padding-left: 20px; padding-right: 20px; font-weight: bold;">We
+                                            detected a overpayment of
+                                            [[lack]]. You will receive [[xmr_amt]] XMR.</p>
+                                    </div>
+                                    <br />
+                                </div>
+                                <div v-if="underpay && xmr_amt != 0 && lack != 0">
+                                    <div class="warning_group">
+                                        <h4 style="color: #ff6229; padding-left: 20px; padding-right: 20px;">
+                                            <strong>The under payment Notification</strong>
+                                        </h4>
+                                        <p style="padding-left: 20px; padding-right: 20px; font-weight: bold;">We
+                                            detected a underpayment of
+                                            [[lack]]. You will receive [[xmr_amt]] XMR.</p>
+                                    </div>
+                                    <br />
+                                </div>
                             </div>
                         </div>
                     </div>
