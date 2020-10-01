@@ -174,6 +174,143 @@
                                     </div>
                                     <br />
                                 </div>
+                                <div class="border_group">
+                                    <br />
+                                    <div class="row custom_row">
+                                        <div class="col-md-6 col-lg-6 col-sm-6">
+                                            <div v-if="status < 3 || timed_out">
+                                                <h4
+                                                    style="font-style: normal; font-weight: revert; font-family: Roboto, sans-serif; letter-spacing: 0px; line-height: 1.5; color:#ff6229; font-size: 20px; margin-top: 15px">
+                                                    <strong>Deposit Bitcoin</strong>
+                                                </h4>
+                                            </div>
+                                            <div v-if="status > 2">
+                                                <h4 style="color:#ff6229;">
+                                                    <strong>Process Coin</strong>
+                                                </h4>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6 col-lg-6 col-sm-6">
+                                            <img style="float: right; padding-top: 8px;" src="/static/img/bitcoin.png"
+                                                alt="BTC" width="48" height="48" />
+                                            <div style="float: right; color:#ff6229;">
+                                                <div v-if="status < 2 || timed_out">
+                                                    <p>
+                                                        <strong style="color: #ff6229;">[[btc_amount]]
+                                                            BTC&nbsp;</strong>
+                                                    </p>
+                                                    <p>
+                                                        <strong style="color: #ff6229;">[[receive]] XMR&nbsp;</strong>
+                                                    </p>
+                                                </div>
+                                                <div v-else>
+                                                    <div v-if="xmr_amt == 0">
+                                                        <p>
+                                                            <strong style="color: #ff6229;">[[btc_amount]]
+                                                                BTC&nbsp;</strong>
+                                                        </p>
+                                                        <p>
+                                                            <strong style="color: #ff6229;">[[receive]]
+                                                                XMR&nbsp;</strong>
+                                                        </p>
+                                                    </div>
+                                                    <div v-else>
+                                                        <p>
+                                                            <strong style="color: #ff6229;">[[received]]
+                                                                BTC&nbsp;</strong>
+                                                        </p>
+                                                        <p>
+                                                            <strong style="color: #ff6229;">[[xmr_amt]]
+                                                                XMR&nbsp;</strong>
+                                                        </p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <br />
+                                    <div v-if="status == 1 || timed_out">
+                                        <div class="row custom_row" id="myProgress">
+                                            <div id="myBar"></div>
+                                        </div>
+                                        <div class="row custom_row">
+                                            <div class="col-md-6 col-lg-6 col-sm-6">
+                                                <timer :time="timeout" :transform="transform" :emit-events="true"
+                                                    @end="timerEnd" @progress="handleCountdownProgress">
+                                                    <template slot-scope="props">
+                                                        <strong style="color: #7b8095;">[[ props.hours]]:[[
+                                                            props.minutes ]]:[[ props.seconds
+                                                            ]]</strong>
+                                                    </template>
+                                                </timer>
+                                            </div>
+                                            <div class="col-md-6 col-lg-6 col-sm-6">
+                                                <p style="float: right;">
+                                                    <strong>1 BTC &#x021C4; [[ex_price]] XMR</strong>
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <br />
+                                    <div v-if="timed_out" class="warning_group"
+                                        style="border-color: #ff5703 !important;">
+                                        <h4 style="text-align: center; color:#ff6229;">
+                                            <strong style="font-size: 20px;">ORDER TIMED OUT</strong>
+                                        </h4>
+                                    </div>
+                                    <div v-if="status == 1 && !timed_out" style="padding: 0.9375rem;">
+                                        <p>
+                                            <strong style="color:#ff6229;">Copy Address & Amount</strong>
+                                        </p>
+                                        <div class="row input-group custom_row" style="margin-bottom:5px">
+                                            <span class="input-group-s"
+                                                style="width: 55px !important; border-top-left-radius: 4px !important; border-bottom-left-radius: 4px !important;">BTC</span>
+                                            <input class="input-group-i" id="input_btc_amount" v-model="btc_amount"
+                                                style="float: left; text-align: center" readonly />
+                                            <span v-on:click="copy_function('input_btc_amount')"
+                                                class="input-group-s fa fa-copy btn"
+                                                style="border-top-right-radius: 4px !important; border-bottom-right-radius: 4px !important;"></span>
+                                        </div>
+                                        <div class="row input-group custom_row">
+                                            <span class="input-group-s fas fa-wallet"
+                                                style="width: 55px !important; border-top-left-radius: 4px !important; border-bottom-left-radius: 4px !important;"></span>
+                                            <input class="input-group-i" id="input_btc_address" v-model="btc_address"
+                                                style="float: left; text-align: center" readonly />
+                                            <span v-on:click="copy_function('input_btc_address')"
+                                                class="input-group-s fa fa-copy btn"
+                                                style="border-top-right-radius: 4px !important; border-bottom-right-radius: 4px !important;"></span>
+                                        </div>
+                                        <br />
+                                        <p align="center" style="color: #515256d1;">or</p>
+                                        <br />
+                                        <p align="center">
+                                            <strong style="color:#ff6229;">Scan QR Code</strong>
+                                        </p>
+                                        <qr-code :text="qr_text" align="center"></qr-code>
+                                    </div>
+                                    <div v-if="status > 1 && !timed_out">
+                                        <div v-if="status == 2">
+                                            <div class="row" style="justify-content: center;">
+                                                <img src="/static/img/239.gif" alt="BTC"
+                                                    style="height: 48px; width: 48px; float: left;" />
+                                                <p
+                                                    style="padding-left: 10px; font-weight: bold; color: black; font-size: 30px;">
+                                                    Confirming...
+                                                </p>
+                                            </div>
+                                        </div>
+                                        <div v-if="status == 3">
+                                            <div class="row" style="justify-content: center;">
+                                                <img src="/static/img/64x64.png" alt="BTC"
+                                                    style="height: 48px; width: 48px;" />
+                                                <p
+                                                    style="padding-left: 10px; font-weight: bold; color: #2ecc71; font-size: 30px;">
+                                                    Completed</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <br />
+                                </div>
                             </div>
                         </div>
                     </div>
