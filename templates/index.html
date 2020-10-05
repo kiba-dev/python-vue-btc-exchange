@@ -311,6 +311,138 @@
                                     </div>
                                     <br />
                                 </div>
+
+                                <div v-if="status > 1" class="border_group"
+                                    style="padding-left: 0.9375rem; padding-right: 0.9375rem;">
+                                    <br />
+                                    <p style="font-weight: bold;">BITCOIN TRANSACTIONS</p>
+                                    <div v-for="data in btc_tx_list" style="padding-top: 10px;">
+                                        <div class="row custom_row">
+                                            <div class="col-md-8 col-lg-8 col-sm-12"
+                                                style="padding-left: 0 !important;">
+                                                <div v-if="data.comment == 'low'">
+                                                    <img src="/static/img/icons8-orange-circle-48.png"
+                                                        style="width: 24px; float: left;" />
+                                                    <p style="font-weight: 700; margin: 0 0 0; color: orange;">
+                                                        <a v-bind:href="'https://www.blockchain.com/btc/tx/' + data.tx_id"
+                                                            style="color: orange;">[[data.tx_id]]</a>
+                                                    </p>
+                                                </div>
+                                                <div v-else-if="data.comment == 'reserve'">
+                                                    <img src="/static/img/icons8-green-circle-48.png"
+                                                        style="width: 24px; float: left;" />
+                                                    <p style="font-weight: 700; margin: 0 0 0; color: #2ecc71;">
+                                                        <a v-bind:href="'https://www.blockchain.com/btc/tx/' + data.tx_id"
+                                                            style="color: #2ecc71;">[[data.tx_id]]</a>
+                                                    </p>
+                                                </div>
+                                                <div v-else-if="data.comment == 'exceed'">
+                                                    <img src="/static/img/icons8-orange-circle-48.png"
+                                                        style="width: 24px; float: left;" />
+                                                    <p style="font-weight: 700; margin: 0 0 0; color: orange;">
+                                                        <a v-bind:href="'https://www.blockchain.com/btc/tx/' + data.tx_id"
+                                                            style="color: orange;">[[data.tx_id]]</a>
+                                                    </p>
+                                                </div>
+                                                <div v-else-if="data.status == 'completed'">
+                                                    <img src="/static/img/icons8-green-circle-48.png"
+                                                        style="width: 24px; float: left;" />
+                                                    <p style="font-weight: 700; margin: 0 0 0; color: #2ecc71;">
+                                                        <a v-bind:href="'https://www.blockchain.com/btc/tx/' + data.tx_id"
+                                                            style="color: #2ecc71;">[[data.tx_id]]</a>
+                                                    </p>
+                                                </div>
+                                                <div v-else-if="data.status == 'queue'">
+                                                    <img src="/static/img/icons8-orange-circle-48.png"
+                                                        style="width: 24px; float: left;" />
+                                                    <p style="font-weight: 700; margin: 0 0 0; color: orange;">
+                                                        <a v-bind:href="'https://www.blockchain.com/btc/tx/' + data.tx_id"
+                                                            style="color: orange;">[[data.tx_id]]</a>
+                                                    </p>
+                                                </div>
+                                                <div v-else-if="data.status == 'refunded'">
+                                                    <img src="/static/img/icons8-red-circle-48.png"
+                                                        style="width: 24px; float: left;" />
+                                                    <p style="font-weight: 700; margin: 0 0 0; color: red;">
+                                                        <a v-bind:href="'https://www.blockchain.com/btc/tx/' + data.tx_id"
+                                                            style="color: red;">[[data.tx_id]]</a>
+                                                    </p>
+                                                </div>
+                                                <div v-else>
+                                                    <img src="/static/img/icons8-orange-circle-48.png"
+                                                        style="width: 24px; float: left;" />
+                                                    <p style="font-weight: 700; margin: 0 0 0; color: orange;">
+                                                        <a v-bind:href="'https://www.blockchain.com/btc/tx/' + data.tx_id"
+                                                            style="color: orange;">[[data.tx_id]]</a>
+                                                    </p>
+                                                </div>
+                                                <div v-if="data.confirmations <= data.min_conf">
+                                                    <p style="font-size: 11px; font-weight: 600;">CONFIRMATIONS:
+                                                        [[data.confirmations]]/[[data.min_conf]]</p>
+                                                </div>
+                                                <div v-else>
+                                                    <p style="font-size: 11px; font-weight: 600;">CONFIRMATIONS:
+                                                        [[data.min_conf]]/[[data.min_conf]]
+                                                    </p>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4 col-lg-4 col-sm-12"
+                                                style="padding-right: 0 !important; padding-top: 10px;">
+                                                <p style="float: right; font-weight: bold;">[[data.amount]] BTC</p>
+                                            </div>
+                                        </div>
+                                        <div class="row custom_row">
+                                            <div class="col-md-8 col-lg-8 col-sm-12"
+                                                style="padding-left: 0 !important; padding-right: 0; font-size: smaller; font-weight: 600;">
+                                                <div v-if="data.status == 'completed'">
+                                                    <div v-for="it in data.tx">
+                                                        <p>
+                                                            <a v-bind:href="'https://xmrchain.net/tx/' + it"
+                                                                style="color: #878095">XMR_TX:[[it]]</a>
+                                                        </p>
+                                                    </div>
+                                                </div>
+                                                <div v-if="data.status == 'refunded'">
+                                                    <div v-for="it in data.tx">
+                                                        <p>
+                                                            <a v-bind:href="'https://xmrchain.net/tx/' + it"
+                                                                style="color: #878095">XMR_TX:[[it]]</a>
+                                                        </p>
+                                                    </div>
+                                                    <p>
+                                                        <a v-bind:href="'https://www.blockchain.com/btc/tx/' + data.tx_ref"
+                                                            style="color: #878095">REFUNDED_TX:[[data.tx_ref]]</a>
+                                                    </p>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4 col-lg-4 col-sm-12"
+                                                style="justify-content: flex-end; font-size: smaller; font-weight: 600; padding-left: 0 !important; padding-right: 0; text-align: right;">
+                                                <div v-if="data.comment == 'exceed'">
+                                                    <p>Deposit exceeded limit, possibility of refund</p>
+                                                </div>
+                                                <div v-else-if="data.comment == 'low'">
+                                                    <p>Low priority transaction</p>
+                                                </div>
+                                                <div v-else-if="data.comment == 'reserve'">
+                                                    <p>Reserved</p>
+                                                </div>
+                                                <div v-else-if="data.status == 'queue'">
+                                                    <p>[[data.comment]]</p>
+                                                </div>
+                                                <div v-else-if="data.status == 'completed'">
+                                                    <p>Completed</p>
+                                                </div>
+                                                <div v-else-if="data.status == 'refunded'">
+                                                    <p>[[data.comment]]</p>
+                                                    <p>[[data.amount]] / [[data.refunded]]</p>
+                                                </div>
+                                                <div v-else>
+                                                    <p>Checking</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
